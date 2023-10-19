@@ -6,7 +6,10 @@
   <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90680653-2"></script> -->
   <!-- <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
     gtag('js', new Date());
 
     gtag('config', 'UA-90680653-2');
@@ -39,7 +42,7 @@
   <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
   <meta name="author" content="BootstrapDash">
 
-  <title>Register</title>
+  <title>Login</title>
 
   <!-- vendor css -->
   <link href="../lib/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -54,54 +57,33 @@
 
 <body class="az-body">
 
-  <div class="az-signup-wrapper">
-    <div class="az-column-signup-left">
-      <div>
-        <i class="typcn typcn-chart-bar-outline"></i>
-        <h1 class="az-logo">az<span>i</span>a</h1>
-        <h5>Responsive Modern Dashboard &amp; Admin Template</h5>
-        <p>We are excited to launch our new company and product Azia. After being featured in too many magazines to
-          mention and having created an online stir, we know that BootstrapDash is going to be big. We also hope to win
-          Startup Fictional Business of the Year this year.</p>
-        <p>Browse our site and see for yourself why you need Azia.</p>
-        <a href="index.html" class="btn btn-outline-indigo">Learn More</a>
-      </div>
-    </div><!-- az-column-signup-left -->
-    <div class="az-column-signup">
+  <div class="az-signin-wrapper">
+    <div class="az-card-signin">
       <h1 class="az-logo">az<span>i</span>a</h1>
-      <div class="az-signup-header">
-        <h2>Get Started</h2>
-        <h4>It's free to signup and only takes a minute.</h4>
+      <div class="az-signin-header">
+        <h2>Welcome back!</h2>
+        <h4>Please sign in to continue</h4>
 
-        <form action="../php/signup.php" method="POST" id="signup-form">
-          <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control" placeholder="Enter your full name" name="name" id="name">
-          </div><!-- form-group -->
+        <form action="../php/signin.php" method="post" id="signin-form">
           <div class="form-group">
             <label>Email</label>
             <input type="text" class="form-control" placeholder="Enter your email" name="email" id="email">
           </div><!-- form-group -->
           <div class="form-group">
             <label>Password</label>
-            <input type="password" class="form-control" placeholder="Enter your password" id="password" name="password" id="password">
+            <input type="password" class="form-control" placeholder="Enter your password" name="password" id="password">
             <input type="checkbox" id="checkbox-password">
             <label id="label-password" for="password">Show Password</label>
           </div><!-- form-group -->
-          <button class="btn btn-az-primary btn-block" type="submit" id="submit">Create Account</button>
-          <div class="row row-xs">
-            <div class="col-sm-6"><button class="btn btn-block"><i class="fab fa-facebook-f"></i> Signup with
-                Facebook</button></div>
-            <div class="col-sm-6 mg-t-10 mg-sm-t-0"><button class="btn btn-primary btn-block"><i
-                  class="fab fa-twitter"></i> Signup with Twitter</button></div>
-          </div><!-- row -->
+          <button class="btn btn-az-primary btn-block" type="submit" id="submit">Sign In</button>
         </form>
-      </div><!-- az-signup-header -->
-      <div class="az-signup-footer">
-        <p>Already have an account? <a href="page-signin.php">Sign In</a></p>
+      </div><!-- az-signin-header -->
+      <div class="az-signin-footer">
+        <p><a href="">Forgot password?</a></p>
+        <p>Don't have an account? <a href="page-signup.html">Create an Account</a></p>
       </div><!-- az-signin-footer -->
-    </div><!-- az-column-signup -->
-  </div><!-- az-signup-wrapper -->
+    </div><!-- az-card-signin -->
+  </div><!-- az-signin-wrapper -->
 
   <script src="../lib/jquery/jquery.min.js"></script>
   <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -111,8 +93,9 @@
   <script src="../lib/jquery-toastr/toastr.min.js"></script>
   <script src="../js/custom/aks.js"></script>
   <script>
-    $(function () {
+    $(function() {
       'use strict'
+
     });
   </script>
 </body>
