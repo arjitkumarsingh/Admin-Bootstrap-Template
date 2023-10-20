@@ -1,0 +1,52 @@
+<?php
+session_start();
+require_once "connection.php";
+
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require "../lib/PHPMailer-6.8.1/src/PHPMailer.php";
+require "../lib/PHPMailer-6.8.1/src/SMTP.php";
+require "../lib/PHPMailer-6.8.1/src/Exception.php";
+
+$mail = new PHPMailer(true);
+unset($_SESSION['otpSend']);
+
+try {
+    //Server settings
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'kanbanboard883@gmail.com';             //SMTP username
+    $mail->Password   = 'ynrtpnwbajpgyhek';                     //SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+    //Recipients
+    $mail->setFrom('arjit.softgen@gmail.com', 'Admin Bootstrap Template');
+    $mail->addAddress("$_SESSION[email]", "$_SESSION[name]");                         //Add a recipient. $name is optional
+    $mail->addReplyTo('arjit.softgen@gmail.com', 'Admin Bootstrap Template');
+    // $mail->addCC('cc@example.com');
+    // $mail->addBCC('bcc@example.com');
+
+    //Attachments
+    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML or simple
+    $mail->Subject = 'OTP for Admin Bootstrap Template';
+    $mail->Body    = '<h3>DO NOT SHARE OTP WITH ANYONE</h3>
+                      Your OTP for login is: <strong>' . $_SESSION['otp'] . '</strong>';
+    // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+    $mail->send();
+    $_SESSION['otpSend'] = "OTP sent successfully!";
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+?>

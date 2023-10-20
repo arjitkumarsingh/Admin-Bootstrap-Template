@@ -11,18 +11,35 @@ $(document).ready(function () {
         }
     });
 
-    // invoking name validation function on interaction with name input field
-    $("#name").on("keyup blur", function () {
-        validateName();
-    });
-    // invoking email validation function on interaction with email input field
-    $("#email").on("keyup blur", function () {
-        validateEmail();
-    });
-    // invoking password validation function on interaction with password input field
-    $("#password").on("keyup blur", function () {
-        validatePassword();
-    });
+
+    // start countdown for resending OTP
+    let counter = 5;
+    $('#timer').html(counter);
+
+    let timerId = setInterval(() => {
+        displayTimer();
+    }, 1000);
+
+    // $("#timer-off").click(function () {
+    //     counter = 5;
+    //     $('#timer-off').hide();
+    //     $('#timer').html(counter);
+    //     $("#timer-on").show();
+
+    //     timerId = setInterval(() => {
+    //         displayTimer();
+    //     }, 1000);
+    // });
+
+    function displayTimer() {
+        $('#timer-on').show();
+        $("#timer").html(--counter);
+        if (counter < 0) {
+            clearInterval(timerId);
+            $("#timer-off").show();
+            $('#timer-on').hide();
+        }
+    }
 
     // toastr (notification) configurations
     toastrOptions = {
@@ -74,7 +91,7 @@ $(document).ready(function () {
             return false;
         } else if (!regex.test(passwordValue)) {
             toastr.error('password must be a combination of symbol(!@#$%^&*), number, upper & lower case letter and minimum 8 characters long',
-                        "*Password", toastrOptions);
+                "*Password", toastrOptions);
             return false;
         } else {
             return true;
@@ -82,27 +99,23 @@ $(document).ready(function () {
     }
 
     // validate all input fields on submit and change event for signup form
-    $("#signup-form").on("submit change", function () {
+    $("#signup-form").on("submit", function () {
         isValidName = validateName();
         isValidEmail = validateEmail();
         isValidPassword = validatePassword();
         if (isValidName && isValidEmail && isValidPassword) {
-            $("#submit").prop("disabled", false);
             return true
         }
-        $("#submit").prop("disabled", true);
         return false;
     });
 
     // validate all input fields on submit and change event for signin form
-    $("#signin-form").on("submit change", function () {
+    $("#signin-form").on("submit", function () {
         isValidEmail = validateEmail();
         isValidPassword = validatePassword();
         if (isValidEmail && isValidPassword) {
-            $("#submit").prop("disabled", false);
             return true
         } else {
-            $("#submit").prop("disabled", true);
             return false;
         }
     });

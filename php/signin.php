@@ -26,27 +26,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // if (empty($_SESSION['nameErr']) && empty($_SESSION['emailErr']) && empty($_SESSION['passwordErr']) && empty($_SESSION['phoneErr'])) {
-    //     $otp = rand(99999, 999999);
-    // }
-    echo "<pre>";
-
     if (empty($_SESSION['emailErr']) && empty($_SESSION['passwordErr'])) {
         $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ? AND `password` = ?");
         mysqli_stmt_bind_param($stmt, "ss", $email, $password);
+        mysqli_stmt_execute($stmt);
+        // use either two according to your need
+        // $result = mysqli_stmt_get_result($stmt);
+        // $user = mysqli_fetch_assoc($result);
 
-        if (mysqli_stmt_execute($stmt)) {
-            echo "User found";
-
-            // use either one of the set according to your need
-            // $result = mysqli_stmt_get_result($stmt);        OR        mysqli_stmt_bind_result($stmt, $id, $name, $email, $password, $otp);
-            // $user = mysqli_fetch_assoc($result);            OR        mysqli_stmt_fetch($stmt);
-            
-            mysqli_stmt_bind_result($stmt, $id, $name, $email, $password, $otp);
-            mysqli_stmt_fetch($stmt);
-            header("location: ../template/page-otp-validate.php");
+        // OR
+        mysqli_stmt_bind_result($stmt, $_SESSION['id'], $_SESSION['name'], $_SESSION['email'], $_SESSION['password'], $_SESSION['otp']);
+        mysqli_stmt_fetch($stmt);
+        mysqli_stmt_free_result($stmt);
+        if ($_SESSION['email'] == $email) {
+            require_once "otp-update.php";
+            // header("location: ../template/page-otp-verify.php");
         } else {
-            echo "Error: " . $stmt . "<br>" . mysqli_error($conn);
+            echo "User not found";
+            $_SESSION['userErr'] = "Invalid User Credentials";
+            print_r(mysqli_error($conn));
+            header("location: ../template/page-signin.php");
         }
     }
 }

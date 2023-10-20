@@ -42,7 +42,7 @@
   <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
   <meta name="author" content="BootstrapDash">
 
-  <title>Login</title>
+  <title>OTP Validation</title>
 
   <!-- vendor css -->
   <link href="../lib/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -56,31 +56,26 @@
 </head>
 
 <body class="az-body">
+  <?php session_start(); ?>
 
   <div class="az-signin-wrapper">
     <div class="az-card-signin">
       <h1 class="az-logo">az<span>i</span>a</h1>
       <div class="az-signin-header">
-        <h2>Welcome back!</h2>
-        <h4>Please sign in to continue</h4>
+        <h2>OTP sent to your email!</h2>
+        <h4>Please submit OTP to continue</h4>
 
-        <form action="../php/signin.php" method="post" id="signin-form">
+        <form action="../php/otp-verify.php" method="post" id="otp-form">
           <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" placeholder="Enter your email" name="email" id="email">
+            <label>OTP</label>
+            <input type="number" class="form-control" placeholder="Enter OTP" name="otp" id="otp">
+            <p id="timer-on">Resend OTP in <span id="timer"></span> Sec</p>
+            <a id="timer-off" href="../php/otp-update.php" style="display: none;">Resend OTP</a>
           </div><!-- form-group -->
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" placeholder="Enter your password" name="password" id="password">
-            <input type="checkbox" id="checkbox-password">
-            <label id="label-password" for="password">Show Password</label>
-          </div><!-- form-group -->
-          <button class="btn btn-az-primary btn-block" type="submit" id="submit">Sign In</button>
+          <button class="btn btn-az-primary btn-block" type="submit" id="submit">Submit</button>
         </form>
-
       </div><!-- az-signin-header -->
       <div class="az-signin-footer">
-        <p><a href="page-recovery.php">Forgot password?</a></p>
         <p>Don't have an account? <a href="page-signup.html">Create an Account</a></p>
       </div><!-- az-signin-footer -->
     </div><!-- az-card-signin -->
@@ -101,13 +96,12 @@
   </script>
 
   <?php
-  session_start();
-  if (isset($_SESSION['userErr'])) {
+  //   session_start();
+  if (isset($_SESSION['otpErr'])) {
   ?>
     <script>
       $(document).ready(function() {
-        // toastr.error('$_SESSION[userErr]', '*Credentials', {
-        toastr.error("<?php echo $_SESSION['userErr'];?>", '*Credentials', {
+        toastr.error("<?php echo $_SESSION['otpErr']; ?>", '*OTP', {
           closeButton: true,
           progressBar: true,
           preventDuplicates: true,
@@ -115,7 +109,24 @@
       });
     </script>
   <?php
-    unset($_SESSION['userErr']);
+    unset($_SESSION['otpErr']);
+  }
+  ?>
+
+  <?php
+  if (isset($_SESSION['otpSend'])) {
+  ?>
+    <script>
+      $(document).ready(function() {
+        toastr.success("<?php echo $_SESSION['otpSend']; ?>", '*OTP', {
+          closeButton: true,
+          progressBar: true,
+          preventDuplicates: true,
+        });
+      });
+    </script>
+  <?php
+    unset($_SESSION['otpSend']);
   }
   ?>
 </body>
