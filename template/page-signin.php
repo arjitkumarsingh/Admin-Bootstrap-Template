@@ -106,7 +106,6 @@
   ?>
     <script>
       $(document).ready(function() {
-        // toastr.error('$_SESSION[userErr]', '*Credentials', {
         toastr.error("<?php echo $_SESSION['userErr'];?>", '*Credentials', {
           closeButton: true,
           progressBar: true,
@@ -116,6 +115,23 @@
     </script>
   <?php
     unset($_SESSION['userErr']);
+  }
+  ?>
+
+  <?php
+  if (isset($_SESSION['mail'])) {
+  ?>
+    <script>
+      $(document).ready(function() {
+        toastr.success("<?php echo $_SESSION['mail'];?>", '*Email', {
+          closeButton: true,
+          progressBar: true,
+          preventDuplicates: true,
+        });
+      });
+    </script>
+  <?php
+    unset($_SESSION['mail']);
   }
   ?>
 </body>

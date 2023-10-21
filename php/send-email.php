@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 require_once "connection.php";
 
 //Import PHPMailer classes into the global namespace
@@ -13,7 +13,6 @@ require "../lib/PHPMailer-6.8.1/src/SMTP.php";
 require "../lib/PHPMailer-6.8.1/src/Exception.php";
 
 $mail = new PHPMailer(true);
-unset($_SESSION['otpSend']);
 
 try {
     //Server settings
@@ -28,7 +27,7 @@ try {
 
     //Recipients
     $mail->setFrom('arjit.softgen@gmail.com', 'Admin Bootstrap Template');
-    $mail->addAddress("$_SESSION[email]", "$_SESSION[name]");                         //Add a recipient. $name is optional
+    $mail->addAddress("$_SESSION[email]", "$_SESSION[name]");                       //Add a recipient. $name is optional
     $mail->addReplyTo('arjit.softgen@gmail.com', 'Admin Bootstrap Template');
     // $mail->addCC('cc@example.com');
     // $mail->addBCC('bcc@example.com');
@@ -39,13 +38,12 @@ try {
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML or simple
-    $mail->Subject = 'OTP for Admin Bootstrap Template';
-    $mail->Body    = '<h3>DO NOT SHARE OTP WITH ANYONE</h3>
-                      Your OTP for login is: <strong>' . $_SESSION['otp'] . '</strong>';
+    $mail->Subject = $subject;
+    $mail->Body = $body;
     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
-    $_SESSION['otpSend'] = "OTP sent successfully!";
+    echo "mail sent";
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }

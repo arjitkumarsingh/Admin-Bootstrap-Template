@@ -96,7 +96,23 @@
   </script>
 
   <?php
-  //   session_start();
+  if (isset($_SESSION['mail'])) {
+  ?>
+    <script>
+      $(document).ready(function() {
+        toastr.success("<?php echo $_SESSION['mail']; ?>", '*OTP', {
+          closeButton: true,
+          progressBar: true,
+          preventDuplicates: true,
+        });
+      });
+    </script>
+  <?php
+    unset($_SESSION['mail']);
+  }
+  ?>
+
+  <?php
   if (isset($_SESSION['otpErr'])) {
   ?>
     <script>
@@ -110,23 +126,6 @@
     </script>
   <?php
     unset($_SESSION['otpErr']);
-  }
-  ?>
-
-  <?php
-  if (isset($_SESSION['otpSend'])) {
-  ?>
-    <script>
-      $(document).ready(function() {
-        toastr.success("<?php echo $_SESSION['otpSend']; ?>", '*OTP', {
-          closeButton: true,
-          progressBar: true,
-          preventDuplicates: true,
-        });
-      });
-    </script>
-  <?php
-    unset($_SESSION['otpSend']);
   }
   ?>
 </body>

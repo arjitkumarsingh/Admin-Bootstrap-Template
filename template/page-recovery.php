@@ -95,13 +95,12 @@
   </script>
 
   <?php
-  //   session_start();
-  if (isset($_SESSION['userErr'])) {
+    session_start();
+  if (isset($_SESSION['emailErr'])) {
   ?>
     <script>
       $(document).ready(function() {
-        // toastr.error('$_SESSION[userErr]', '*Credentials', {
-        toastr.error("<?php echo $_SESSION['userErr']; ?>", '*Credentials', {
+        toastr.error("<?php echo $_SESSION['emailErr']; ?>", '*Email', {
           closeButton: true,
           progressBar: true,
           preventDuplicates: true,
@@ -109,7 +108,7 @@
       });
     </script>
   <?php
-    unset($_SESSION['userErr']);
+    unset($_SESSION['emailErr']);
   }
   ?>
 </body>

@@ -20,17 +20,6 @@ $(document).ready(function () {
         displayTimer();
     }, 1000);
 
-    // $("#timer-off").click(function () {
-    //     counter = 5;
-    //     $('#timer-off').hide();
-    //     $('#timer').html(counter);
-    //     $("#timer-on").show();
-
-    //     timerId = setInterval(() => {
-    //         displayTimer();
-    //     }, 1000);
-    // });
-
     function displayTimer() {
         $('#timer-on').show();
         $("#timer").html(--counter);
@@ -98,7 +87,7 @@ $(document).ready(function () {
         }
     }
 
-    // validate all input fields on submit and change event for signup form
+    // validate all input fields on submit for signup form
     $("#signup-form").on("submit", function () {
         isValidName = validateName();
         isValidEmail = validateEmail();
@@ -109,7 +98,7 @@ $(document).ready(function () {
         return false;
     });
 
-    // validate all input fields on submit and change event for signin form
+    // validate all input fields on submit for signin form
     $("#signin-form").on("submit", function () {
         isValidEmail = validateEmail();
         isValidPassword = validatePassword();
@@ -120,4 +109,8 @@ $(document).ready(function () {
         }
     });
 
+    // validate recovery form
+    $("#recovery-form").on("submit", function () {
+        return validateEmail();
+    });
 });
