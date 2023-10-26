@@ -16,7 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("location: ../template/page-otp-verify.php");
     } else if ($otp == $_SESSION['otp']) {
         echo "OTP matched";
-        header("location: ../template/index.html");
+        $_SESSION['id'] = $_SESSION['user_id'];
+        unset($_SESSION['user_id']);
+        header("location: ../template/page-dashboard-admin.php");
     } else {
         $_SESSION['otpErr'] = "OTP did not match";
         header("location: ../template/page-otp-verify.php");

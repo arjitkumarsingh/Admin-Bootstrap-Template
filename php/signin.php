@@ -6,6 +6,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     unset($_SESSION['id']);
     unset($_SESSION['emailErr']);
     unset($_SESSION['passwordErr']);
+    unset($_SESSION['userErr']);
+    unset($_SESSION['activeErr']);
 
     if (empty($_POST["email"])) {
         $_SESSION['emailErr'] = "Email is required";
@@ -28,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($_SESSION['emailErr']) && empty($_SESSION['passwordErr'])) {    
-        $stmt = mysqli_prepare($conn, "SELECT * FROM `users` WHERE email = ? AND `password` = ?");
+        $stmt = mysqli_prepare($conn, "SELECT * FROM `users` WHERE `email` = ? AND `password` = ?");
         mysqli_stmt_bind_param($stmt, "ss", $email, $password);
         mysqli_stmt_execute($stmt);
         // use either two according to your need
@@ -36,15 +38,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // $user = mysqli_fetch_assoc($result);
 
         // OR
-        mysqli_stmt_bind_result($stmt, $_SESSION['id'], $_SESSION['name'], $_SESSION['email'], $_SESSION['password'], $_SESSION['otp']);
+        mysqli_stmt_bind_result($stmt, $_SESSION['user_id'], $_SESSION['name'], $_SESSION['email'], $_SESSION['password'], $_SESSION['status'], $_SESSION['role'], $_SESSION['otp']);
         mysqli_stmt_fetch($stmt);
         mysqli_stmt_free_result($stmt);
 
         print_r($_SESSION);
         
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION['user_id'])) {
+            if($_SESSION['status'] != 0) {
             require_once "otp-update.php";
-            // header("location: ../template/page-otp-verify.php")
+            } else {
+                $_SESSION['activeErr'] = "Can not signin at the moment. Please contact administration";
+                header("location: ../template/page-signin.php");
+            }
         } else {
             $_SESSION['userErr'] = "Invalid User Credentials";
             print_r(mysqli_error($conn));

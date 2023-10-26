@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $_SESSION['emailErr'] = "Email not found";
             print_r(mysqli_error($conn));
-            header("location: ../template/page-recovery.php");
+            header("location: ../template/page-password-forgot.php");
         }
     }
 }

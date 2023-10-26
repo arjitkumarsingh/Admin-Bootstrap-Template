@@ -15,7 +15,7 @@ if (mysqli_stmt_execute($stmt)) {
             <br>
             Thanks & Regards!<br>
             Admin Bootstrap Template";
-    require_once "send-email.php";
+    require_once "email-send.php";
     $_SESSION['mail'] = "New password sent to the email";
 } else {
     echo "Error: <br>" . mysqli_error($conn);

@@ -64,7 +64,7 @@
         <h2>Forgot password!</h2>
         <h4>Please enter the registered email</h4>
 
-        <form action="../php/recovery.php" method="post" id="recovery-form">
+        <form action="../php/password-forgot.php" method="post" id="recovery-form">
           <div class="form-group">
             <label>Email</label>
             <input type="text" class="form-control" placeholder="Enter your email" name="email" id="email">

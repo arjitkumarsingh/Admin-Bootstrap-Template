@@ -5,8 +5,8 @@ require_once "connection.php";
 $_SESSION['otp'] = rand(99999, 999999);
 unset($_SESSION['mail']);
 
-$stmt = mysqli_prepare($conn, "UPDATE users SET otp = ? WHERE id = ?");
-mysqli_stmt_bind_param($stmt, "ii", $_SESSION['otp'], $_SESSION['id']);
+$stmt = mysqli_prepare($conn, "UPDATE users SET otp = ? WHERE email = ?");
+mysqli_stmt_bind_param($stmt, "is", $_SESSION['otp'], $_SESSION['email']);
 
 if (mysqli_stmt_execute($stmt)) {
     echo "OTP updated successfully";
@@ -16,7 +16,7 @@ if (mysqli_stmt_execute($stmt)) {
             <br>
             Thanks & Regards!<br>
             Admin Bootstrap Template";
-    require_once "send-email.php";
+    require_once "email-send.php";
     $_SESSION['mail'] = "OTP sent to the email";
     header("location: ../template/page-otp-verify.php");
 } else {

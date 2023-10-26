@@ -1,3 +1,27 @@
+function updateUser(id, name, email, password, role) {
+    $("#users-tab").hide(1000);
+    $("#update-user").show(1000);
+
+    $("#update-user-form").attr("action", "../php/user-update.php?id=" + id);
+    $("#update-id").html('<input class="form-control" type="id" name="id" value="' + id + '" readonly>');
+    $("#name").attr("placeholder", name);
+    $("#name").attr("value", name);
+    $("#email").attr("placeholder", email);
+    $("#email").attr("value", email);
+    $("#password").attr("placeholder", "Valid password format");
+    $("#password").attr("value", password);
+
+    if (role == 1) {
+        $("#role-1").prop("selected", true);
+        $("#role-2").prop("selected", false);
+    } else {
+        $("#role-2").prop("selected", true);
+        $("#role-1").prop("selected", false);
+    }
+}
+
+
+
 $(document).ready(function () {
 
     // show and hide password if user check and uncheck the checkbox
@@ -87,8 +111,8 @@ $(document).ready(function () {
         }
     }
 
-    // validate all input fields on submit for signup form
-    $("#signup-form").on("submit", function () {
+    // validate all input fields on submit signup form and new user form
+    $("#signup-form, #new-user-form, #update-user-form").on("submit", function () {
         isValidName = validateName();
         isValidEmail = validateEmail();
         isValidPassword = validatePassword();
@@ -98,7 +122,7 @@ $(document).ready(function () {
         return false;
     });
 
-    // validate all input fields on submit for signin form
+    // validate all input fields on submit signin form
     $("#signin-form").on("submit", function () {
         isValidEmail = validateEmail();
         isValidPassword = validatePassword();
@@ -109,8 +133,29 @@ $(document).ready(function () {
         }
     });
 
-    // validate recovery form
+    // validate password recovery form
     $("#recovery-form").on("submit", function () {
         return validateEmail();
+    });
+
+
+    // hide and show users
+    $("#users").on("click", function () {
+        $("#overview-tab").hide(1000);
+        $("#new-user").hide(1000);
+        $("#update-user").hide(1000);
+        $("#users-tab").show(1000);
+    });
+    $("#overview").on("click", function () {
+        $("#users-tab").hide(1000);
+        $("#new-user").hide(1000);
+        $("#update-user").hide(1000);
+        $("#overview-tab").show(1000);
+    });
+
+    // show save new user form on dashboard
+    $("#add").on("click", function () {
+        $("#users-tab").hide(1000);
+        $("#new-user").show(1000);
     });
 });

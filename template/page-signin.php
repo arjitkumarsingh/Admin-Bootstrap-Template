@@ -80,7 +80,7 @@
 
       </div><!-- az-signin-header -->
       <div class="az-signin-footer">
-        <p><a href="page-recovery.php">Forgot password?</a></p>
+        <p><a href="page-password-forgot.php">Forgot password?</a></p>
         <p>Don't have an account? <a href="page-signup.html">Create an Account</a></p>
       </div><!-- az-signin-footer -->
     </div><!-- az-card-signin -->
@@ -132,6 +132,23 @@
     </script>
   <?php
     unset($_SESSION['mail']);
+  }
+  ?>
+  
+  <?php
+  if (isset($_SESSION['activeErr'])) {
+  ?>
+    <script>
+      $(document).ready(function() {
+        toastr.error("<?php echo $_SESSION['activeErr'];?>", '*Status', {
+          closeButton: true,
+          progressBar: true,
+          preventDuplicates: true,
+        });
+      });
+    </script>
+  <?php
+    unset($_SESSION['activeErr']);
   }
   ?>
 </body>

@@ -56,7 +56,12 @@
 </head>
 
 <body class="az-body">
-  <?php session_start(); ?>
+  <?php
+  session_start();
+  if (!isset($_SESSION['user_id'])) {
+    header("location: ../php/signout.php");
+  }
+  ?>
 
   <div class="az-signin-wrapper">
     <div class="az-card-signin">
