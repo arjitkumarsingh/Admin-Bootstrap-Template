@@ -20,7 +20,10 @@ function updateUser(id, name, email, password, role) {
     }
 }
 
-
+// function viewActivity(id) {
+//         $("#users-tab").hide(1000);
+//         $("#view-activity").show(1000);
+// }
 
 $(document).ready(function () {
 
@@ -111,8 +114,8 @@ $(document).ready(function () {
         }
     }
 
-    // validate all input fields on submit signup form and new user form
-    $("#signup-form, #new-user-form, #update-user-form").on("submit", function () {
+    // validate all input fields on submit signup form, profile form and new user form
+    $("#signup-form, #new-user-form, #update-user-form, #profile-form").on("submit", function () {
         isValidName = validateName();
         isValidEmail = validateEmail();
         isValidPassword = validatePassword();
@@ -144,12 +147,14 @@ $(document).ready(function () {
         $("#overview-tab").hide(1000);
         $("#new-user").hide(1000);
         $("#update-user").hide(1000);
+        $("#view-activity").hide(1000);
         $("#users-tab").show(1000);
     });
     $("#overview").on("click", function () {
         $("#users-tab").hide(1000);
         $("#new-user").hide(1000);
         $("#update-user").hide(1000);
+        $("#view-activity").hide(1000);
         $("#overview-tab").show(1000);
     });
 

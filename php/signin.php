@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (empty($_SESSION['emailErr']) && empty($_SESSION['passwordErr'])) {    
+    if (empty($_SESSION['emailErr']) && empty($_SESSION['passwordErr'])) {
         $stmt = mysqli_prepare($conn, "SELECT * FROM `users` WHERE `email` = ? AND `password` = ?");
         mysqli_stmt_bind_param($stmt, "ss", $email, $password);
         mysqli_stmt_execute($stmt);
@@ -42,11 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_stmt_fetch($stmt);
         mysqli_stmt_free_result($stmt);
 
-        print_r($_SESSION);
-        
         if (isset($_SESSION['user_id'])) {
-            if($_SESSION['status'] != 0) {
-            require_once "otp-update.php";
+            if ($_SESSION['status'] != 0) {
+                require_once "otp-update.php";
             } else {
                 $_SESSION['activeErr'] = "Can not signin at the moment. Please contact administration";
                 header("location: ../template/page-signin.php");
@@ -59,12 +57,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-function testInput($data) {
+function testInput($data)
+{
     $data = trim($data);
     $data = stripslashes($data);
-    // echo "<br>before: ".$data."<br>after: ";
-    // $data = htmlspecialchars($data);
-    // echo $data . "<br>";
     return $data;
 }
 // mysqli_close($conn);

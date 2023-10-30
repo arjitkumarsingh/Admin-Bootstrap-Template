@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "OTP matched";
         $_SESSION['id'] = $_SESSION['user_id'];
         unset($_SESSION['user_id']);
+        require_once "log-user.php";
         header("location: ../template/page-dashboard-admin.php");
     } else {
         $_SESSION['otpErr'] = "OTP did not match";

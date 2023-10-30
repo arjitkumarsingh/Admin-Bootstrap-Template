@@ -2,38 +2,10 @@
 <html lang="en">
 
 <head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-90680653-2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-90680653-2');
-    </script> -->
 
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Twitter -->
-  <!-- <meta name="twitter:site" content="@bootstrapdash">
-    <meta name="twitter:creator" content="@bootstrapdash">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Azia">
-    <meta name="twitter:description" content="Responsive Bootstrap 4 Dashboard Template">
-    <meta name="twitter:image" content="https://www.bootstrapdash.com/azia/img/azia-social.png"> -->
-
-  <!-- Facebook -->
-  <!-- <meta property="og:url" content="https://www.bootstrapdash.com/azia">
-    <meta property="og:title" content="Azia">
-    <meta property="og:description" content="Responsive Bootstrap 4 Dashboard Template">
-
-    <meta property="og:image" content="https://www.bootstrapdash.com/azia/img/azia-social.png">
-    <meta property="og:image:secure_url" content="https://www.bootstrapdash.com/azia/img/azia-social.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="600"> -->
 
   <!-- Meta -->
   <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
@@ -46,7 +18,6 @@
   <link href="../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
   <link href="../lib/typicons.font/typicons.css" rel="stylesheet">
   <link href="../lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="../lib/jquery-datatables/datatables.min.css" rel="stylesheet">
   <!-- azia CSS -->
   <link rel="stylesheet" href="../css/azia.css">
@@ -60,7 +31,7 @@
   <?php
   session_start();
   if (isset($_SESSION['id'])) {
-  require "../php/users-get.php";
+    require "../php/users-get.php";
   } else {
     header("location: ../php/signout.php");
   }
@@ -79,7 +50,7 @@
         </div><!-- az-header-menu-header -->
         <ul class="nav">
           <li class="nav-item active show">
-            <a href="index.html" class="nav-link"><i class="typcn typcn-chart-area-outline"></i> Dashboard</a>
+            <a href="page-dashboard-admin.php" class="nav-link"><i class="typcn typcn-chart-area-outline"></i> Dashboard</a>
           </li>
           <li class="nav-item">
             <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i> Pages</a>
@@ -168,12 +139,12 @@
               <div class="az-img-user">
                 <img src="../img/faces/face1.jpg" alt="">
               </div><!-- az-img-user -->
-              <h6>Aziana Pechon</h6>
+              <h6><?php echo $_SESSION['name']; ?></h6>
               <span>Premium Member</span>
             </div><!-- az-header-profile -->
 
-            <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> My Profile</a>
-            <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
+            <a href="page-profile.php" class="dropdown-item"><i class="typcn typcn-user-outline"></i> Profile</a>
+            <!-- <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a> -->
             <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> Activity Logs</a>
             <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a>
             <a href="../php/signout.php" class="dropdown-item"><i class="typcn typcn-power-outline"></i> Sign Out</a>
@@ -317,10 +288,8 @@
           </div><!--col -->
         </div><!-- row -->
 
-        <div id="users-tab" style="display: none;">
-          <div class="my-3">
-            <a href="javascript:void(0)" class="btn btn-purple" id="add">Add New User</a>
-          </div>
+        <!-- Admin can view the list of all users -->
+        <div id="users-tab" style="display: none;" class="card card-dashboard-five mb-3">
           <table id="users-details" class="display">
             <thead>
               <tr>
@@ -330,14 +299,13 @@
                 <th>Password</th>
                 <th>Status</th>
                 <th>Role</th>
+                <th>Activity</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>
-              <?php
-              if (isset($users)) {
-                foreach ($users as $user) {
-              ?>
+            <?php if (isset($users)) { ?>
+              <tbody>
+                <?php foreach ($users as $user) { ?>
                   <tr id="row-<?php echo $user['id']; ?>">
                     <td><?php echo $user['id']; ?></td>
                     <td><?php echo $user['name']; ?></td>
@@ -359,31 +327,31 @@
                       }
                       ?>
                     </td>
+                    <td><a href="page-user-log.php?id=<?php echo $user['id']; ?>" onclick="viewActivity(<?php echo $user['id']; ?>)">View</a></td>
                     <td>
                       <a href="javascript:void(0)" onclick="updateUser(<?php echo $user['id']; ?>, '<?php echo $user['name']; ?>', '<?php echo $user['email']; ?>',
                       '<?php echo $user['password']; ?>', '<?php echo $user['role']; ?>')">
                         <i class="typcn typcn-edit"></i>
                       </a>
-                      <!-- <a href="../php/user-update.php?id=<?php echo $user['id']; ?>"><i class="typcn typcn-edit"></i></a> -->
                       &nbsp; &nbsp;
                       <a href="../php/user-delete.php?id=<?php echo $user['id']; ?>"><i class="typcn typcn-trash" id="delete-<?php echo $user['id']; ?>"></i></a>
                     </td>
                   </tr>
-              <?php
-                }
-              } ?>
-            </tbody>
-            <tfoot>
-              <tr>
-                <th colspan="7">Total number of Employees: <?php echo count($users); ?></th>
-              </tr>
-            </tfoot>
+                <?php } ?>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="8">Total number of Employees: <?php echo count($users); ?></th>
+                </tr>
+              </tfoot>
+            <?php } ?>
           </table>
+          <a href="javascript:void(0)" class="btn btn-purple btn-block" id="add">Add New User</a>
         </div>
 
 
-
-        <div id="update-user" style="display: none;" class="mb-3">
+        <!-- Admin can update details of a user -->
+        <div id="update-user" style="display: none;" class="card card-dashboard-five mb-3">
           <table id="user-details" class="display">
             <thead>
               <tr>
@@ -403,7 +371,7 @@
                   <td id="update-email"><input class="form-control" type="email" id="email" name="email" aria-label="email id"></td>
                   <td id="update-password"><input class="form-control" type="password" id="password" name="password" aria-label="password"></td>
                   <td id="update-role">
-                    <select name="role" class="form-control form-select">
+                    <select name="role" class="form-control">
                       <option id="role-1" value="1">Admin</option>
                       <option id="role-2" value="2">User</option>
                     </select>
@@ -415,10 +383,9 @@
           </table>
         </div>
 
-
-
-        <div id="new-user" style="display: none;">
-          <form action="../php/user-save.php" method="POST" class="mb-5" id="new-user-form">
+        <!-- New User from -->
+        <div id="new-user" style="display: none;" class="card card-dashboard-five mb-3">
+          <form action="../php/user-save.php" method="POST" id="new-user-form">
 
             <div class="input-group mb-3">
               <span class="input-group-text">Name: </span>
@@ -488,9 +455,9 @@
             }
             ?>
 
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-purple" id="submit">Add</button>
-            </div>
+            <!-- <div class="d-grid gap-2"> -->
+            <button type="submit" class="btn btn-purple btn-block" id="submit">Add</button>
+            <!-- </div> -->
           </form>
         </div>
 
@@ -817,6 +784,7 @@
     $(document).ready(function() {
       var usersRecord = $('#users-details').DataTable();
       var userRecord = $('#user-details').DataTable();
+      var userLog = $("#user-activities").DataTable();
     });
   </script>
   <script>

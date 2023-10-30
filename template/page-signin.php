@@ -57,6 +57,13 @@
 
 <body class="az-body">
 
+  <?php
+  session_start();
+  if (isset($_SESSION['id'])) {
+    header("location: page-dashboard-admin.php");
+  }
+  ?>
+
   <div class="az-signin-wrapper">
     <div class="az-card-signin">
       <h1 class="az-logo">az<span>i</span>a</h1>
@@ -101,12 +108,11 @@
   </script>
 
   <?php
-  session_start();
   if (isset($_SESSION['userErr'])) {
   ?>
     <script>
       $(document).ready(function() {
-        toastr.error("<?php echo $_SESSION['userErr'];?>", '*Credentials', {
+        toastr.error("<?php echo $_SESSION['userErr']; ?>", '*Credentials', {
           closeButton: true,
           progressBar: true,
           preventDuplicates: true,
@@ -123,7 +129,7 @@
   ?>
     <script>
       $(document).ready(function() {
-        toastr.success("<?php echo $_SESSION['mail'];?>", '*Email', {
+        toastr.success("<?php echo $_SESSION['mail']; ?>", '*Email', {
           closeButton: true,
           progressBar: true,
           preventDuplicates: true,
@@ -134,13 +140,13 @@
     unset($_SESSION['mail']);
   }
   ?>
-  
+
   <?php
   if (isset($_SESSION['activeErr'])) {
   ?>
     <script>
       $(document).ready(function() {
-        toastr.error("<?php echo $_SESSION['activeErr'];?>", '*Status', {
+        toastr.error("<?php echo $_SESSION['activeErr']; ?>", '*Status', {
           closeButton: true,
           progressBar: true,
           preventDuplicates: true,
