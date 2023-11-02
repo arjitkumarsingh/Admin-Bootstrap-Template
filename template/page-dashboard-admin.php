@@ -290,6 +290,13 @@
 
         <!-- Admin can view the list of all users -->
         <div id="users-tab" style="display: none;" class="card card-dashboard-five mb-3">
+          <form action="page-search.php" method="POST">
+            <div class="input-group mb-3">
+              <!-- <span class="input-group-text">Search: </span> -->
+              <input type="text" class="form-control" name="search" id="search" placeholder="Search keywords" aria-label="Enter your search keywords" aria-describedby="basic-addon1">
+              <button type="submit" class="btn btn-purple">Search</button>
+            </div>
+          </form>
           <table id="users-details" class="display">
             <thead>
               <tr>
@@ -346,6 +353,16 @@
               </tfoot>
             <?php } ?>
           </table>
+          <div class="page">
+            <?php
+            for ($i = 1; $i <= $total_pages; $i++) {
+            ?>
+              <form action="page-dashboard-admin.php" method="get" >
+                <input type="hidden" name="page" value="<?php echo $i; ?>">
+                <button type="submit" class="page-button"><?php echo $i; ?></button>
+              </form>
+            <?php } ?>
+          </div>
           <a href="javascript:void(0)" class="btn btn-purple btn-block" id="add">Add New User</a>
         </div>
 
@@ -389,7 +406,7 @@
 
             <div class="input-group mb-3">
               <span class="input-group-text">Name: </span>
-              <input class="form-control" type="text" name="name" placeholder="Full Name" aria-label="full name">
+              <input class="form-control" type="text" name="name" id="new-name" placeholder="Full Name" aria-label="full name">
             </div>
             <?php
             if (isset($_SESSION['nameErr'])) {
@@ -411,7 +428,7 @@
 
             <div class="input-group mb-3">
               <span class="input-group-text">Email: </span>
-              <input class="form-control" type="email" name="email" placeholder="xyz@example.com" aria-label="email id">
+              <input class="form-control" type="email" name="email" id="new-email" placeholder="xyz@example.com" aria-label="email id">
             </div>
             <?php
             if (isset($_SESSION['emailErr'])) {
@@ -433,7 +450,7 @@
 
             <div class="input-group mb-1">
               <span class="input-group-text">Password: </span>
-              <input class="form-control" type="password" name="password" placeholder="Password" aria-label="password">
+              <input class="form-control" type="password" name="password" id="new-password" placeholder="Password" aria-label="password">
             </div>
             <input type="checkbox" id="checkbox-password">
             <label id="label-password" for="password" class="text-secondary">Show Password</label>
@@ -456,7 +473,7 @@
             ?>
 
             <!-- <div class="d-grid gap-2"> -->
-            <button type="submit" class="btn btn-purple btn-block" id="submit">Add</button>
+            <button type="submit" class="btn btn-purple btn-block">Add</button>
             <!-- </div> -->
           </form>
         </div>
@@ -782,7 +799,7 @@
   <!-- Data Table -->
   <script>
     $(document).ready(function() {
-      var usersRecord = $('#users-details').DataTable();
+      // var usersRecord = $('#users-details').DataTable();
       var userRecord = $('#user-details').DataTable();
       var userLog = $("#user-activities").DataTable();
     });
