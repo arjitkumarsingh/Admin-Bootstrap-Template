@@ -20,20 +20,46 @@ function updateUser(id, name, email, password, role) {
     }
 }
 
-// function viewActivity(id) {
-//         $("#users-tab").hide(1000);
-//         $("#view-activity").show(1000);
-// }
-
 $(document).ready(function () {
+
+    // Seach in users details
+    // let oldHtml = $("#users-details").html();
+    // $("#search").on("keyup", function () {
+    //     $search = $(this).val();
+    //     if (!$search) {
+    //         $("#users-details").html(oldHtml);
+    //     } else {
+    //         $.ajax({
+    //             type: "post",
+    //             data: {
+    //                 search: $search
+    //             },
+    //             url: "../php/search.php",
+    //             success: function (response) {
+    //                 response = JSON.parse(response);
+    //                 $("#users-details").html(
+    //                     "<thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Password</th></tr></thead><tbody></tbody>"
+    //                 );
+    //                 response.forEach(element => {
+    //                     $("tbody").append(`<tr><td>${element.id}</td><td>${element.name}</td><td>${element.email}</td><td>${element.password}</td></tr>`);
+    //                 });
+    //             },
+    //             error: function (response) {
+    //                 console.error(response);
+    //             }
+    //         });
+    //     }
+    // });
 
     // show and hide password if user check and uncheck the checkbox
     $('#checkbox-password').change(function () {
         if ($(this).prop("checked")) {
             $("#password").attr("type", "text");
+            $("#new-password").attr("type", "text");
             $("#label-password").text("Hide Password");
         } else {
             $("#password").attr("type", "password");
+            $("#new-password").attr("type", "password");
             $("#label-password").text("Show Password");
         }
     });
@@ -114,8 +140,59 @@ $(document).ready(function () {
         }
     }
 
-    // validate all input fields on submit signup form, profile form and new user form
-    $("#signup-form, #new-user-form, #update-user-form, #profile-form").on("submit", function () {
+    // name validation function
+    function validateNewName() {
+        let nameValue = $("#new-name").val();
+        let regex = /^[a-zA-Z-' ]*$/;
+        if (nameValue.length == 0) {
+            toastr.error('name is required', "*Name", toastrOptions);
+            return false;
+        } else if (nameValue.length < 3) {
+            toastr.error('name must be at least 3 characters long', "*Name", toastrOptions);
+            return false;
+        } else if (!regex.test(nameValue)) {
+            toastr.error('only letters and white space allowed', "*Name", toastrOptions);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // email validation function
+    function validateNewEmail() {
+        let emailValue = $("#new-email").val();
+        let regex = /^[a-zA-Z][a-zA-Z\d\w.]{2,30}@[a-zA-Z\d]{3,30}\.[a-zA-Z]{2,20}$/;
+        if (emailValue.length == "") {
+            toastr.error('email is required', "*Email", toastrOptions);
+            return false;
+        } else if (!regex.test(emailValue)) {
+            toastr.error('invalid email format', "*Email", toastrOptions);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // password validation function
+    function validateNewPassword() {
+        let passwordValue = $("#new-password").val();
+        let regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        if (passwordValue.length == "") {
+            toastr.error('password is required', "*Password", toastrOptions);
+            return false;
+        } else if (!regex.test(passwordValue)) {
+            toastr.error('password must be a combination of symbol(!@#$%^&*), number, upper & lower case letter and minimum 8 characters long',
+                "*Password", toastrOptions);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+
+    // validate all input fields on submit signup form and profile form
+    $("#signup-form, #update-user-form, #profile-form").on("submit", function () {
         isValidName = validateName();
         isValidEmail = validateEmail();
         isValidPassword = validatePassword();
@@ -124,6 +201,20 @@ $(document).ready(function () {
         }
         return false;
     });
+
+    // validate all input fields on submit new user form
+    $("#new-user-form").on("submit", function () {
+        isValidName = validateNewName();
+        isValidEmail = validateNewEmail();
+        isValidPassword = validateNewPassword();
+        if (isValidName && isValidEmail && isValidPassword) {
+            return true
+        }
+        return false;
+    });
+
+
+
 
     // validate all input fields on submit signin form
     $("#signin-form").on("submit", function () {

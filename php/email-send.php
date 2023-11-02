@@ -27,7 +27,7 @@ try {
 
     //Recipients
     $mail->setFrom('arjit.softgen@gmail.com', 'Admin Bootstrap Template');
-    $mail->addAddress("$_SESSION[email]", "$_SESSION[name]");                       //Add a recipient. $name is optional
+    $mail->addAddress("$_SESSION[email]", "$_SESSION[name]");                     //Add a recipient. $name is optional
     $mail->addReplyTo('arjit.softgen@gmail.com', 'Admin Bootstrap Template');
     // $mail->addCC('cc@example.com');
     // $mail->addBCC('bcc@example.com');
